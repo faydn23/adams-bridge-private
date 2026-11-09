@@ -270,7 +270,7 @@ Thus, **no statistically significant first-order leakage is detected in the eval
 | INTT | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
 | PWM | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
 | PWA | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
-| KECCAK | Protected implementation | 1,000,000 | No detected first-order leakage during computation; threshold crossings during initial data loading |
+| KECCAK | Masking + shuffling | 1,000,000 | No detected first-order leakage during computation; threshold crossings during initial data loading |
 
 #### NTT — Protected
 
@@ -388,7 +388,7 @@ Significant excursions are reported during **SIGENC**, where the recombined sign
 | ML-DSA | Masked + shuffled | INTT | 1,000,000 | No detected first-order leakage |
 | ML-DSA | Masked + shuffled | PWM | 1,000,000 | No detected first-order leakage |
 | ML-DSA | Masked + shuffled | PWA | 1,000,000 | No detected first-order leakage |
-| ML-DSA | Protected | KECCAK | 1,000,000 | No detected leakage during computation; initial data-loading threshold crossings |
+| ML-DSA | Masked + shuffled | KECCAK | 1,000,000 | No detected leakage during computation; initial data-loading threshold crossings |
 | ML-KEM | Masked + shuffled | NTT | 1,000,000 | No detected first-order leakage |
 | ML-KEM | Masked + shuffled | INTT | 1,000,000 | No detected first-order leakage |
 | ML-KEM | Masked + shuffled | PWM | 1,000,000 | No detected first-order leakage |
