@@ -170,164 +170,207 @@ Version 1.0 presents TVLA results only for the case where the shuffling counterm
 Although Version 1.0 includes masking countermeasures, this report does not present TVLA results for masking countermeasures. These results will be provided in future releases. -->
 
 
-# Side-Channel Analysis (SCA) — TVLA Results for ML-KEM & ML-DSA
+# Side‑Channel Analysis (SCA) — TVLA Results for ML‑KEM & ML‑DSA
 
-## Side-Channel Leakage Evaluation — Adams Bridge 2.2
-
-We employ Test Vector Leakage Assessment (TVLA) to experimentally evaluate first-order side-channel leakage in the Adams Bridge 2.2 hardware architecture. All experiments are conducted on a physical FPGA platform configured to reproduce the datapath, randomness usage, and control sequencing of the hardware implementation.
-
-Our evaluation focuses on security-critical arithmetic operations: the Number Theoretic Transform (NTT), inverse NTT (INTT), point-wise multiplication (PWM), and point-wise addition (PWA). We also evaluate the NTT-domain flow of ML-DSA signing to examine the transition from masked arithmetic to recombined signature processing.
-
-The results below describe the 2.2 evaluation and supersede the earlier operation-level TVLA results. The preceding v1.0 empirical validation is retained as historical context, not as the experimental setup for this evaluation.
+## Adams Bridge 2.2 Evaluation
 
 ### Experimental Setup
 
-Power measurements are collected using the SCA-specific version of the CW310 Bergen board, equipped with a Kintex-7 XC7K410T FPGA. This variant is designed to facilitate high-fidelity power measurements and improve the observability of side-channel leakage.
-
-The board provides a dedicated SMA connector for power measurements through an onboard shunt resistor. The FPGA operates at 10 MHz, a reduced frequency selected to improve cycle-level visibility of power consumption and minimize temporal overlap between consecutive operations. Power traces are acquired using a PicoScope 6424E oscilloscope at a sampling rate of 156.25 MS/s.
-
-We employ fixed-versus-random TVLA, comparing power traces collected using fixed and randomized secret values. Unprotected implementations are evaluated using 100,000 traces, whereas protected operation-level evaluations use 1,000,000 traces.
-
-First-order Welch's t-test is applied at each sample to identify statistically significant differences between the two trace populations. The conventional screening threshold is |t| = 4.5. A threshold crossing indicates a detectable difference between the populations; it does not, on its own, establish an exploitable key-recovery attack.
+Measurements are performed on the **SCA-specific CW310 Bergen board**, equipped with a **Kintex-7 XC7K410T FPGA**. This board variant facilitates high-fidelity side-channel measurements and exposes the voltage drop across an onboard shunt resistor through a dedicated SMA connector. The FPGA operates at **10 MHz**, improving cycle-level visibility and reducing temporal overlap between consecutive operations. Power traces are captured using a **PicoScope 6424E** oscilloscope at **156.25 MS/s**.
 
 | Parameter | Configuration |
-|---|---|
-| FPGA Board | CW310 Bergen (SCA-specific version) |
-| FPGA | Kintex-7 XC7K410T |
+| --- | --- |
+| Target | SCA-specific CW310 Bergen |
+| FPGA | Xilinx Kintex-7 XC7K410T |
+| Power measurement | Onboard shunt resistor via dedicated SMA connector |
 | Oscilloscope | PicoScope 6424E |
-| FPGA Frequency | 10 MHz |
-| Sampling Frequency | 156.25 MS/s |
-| Statistical Test | Fixed-versus-random first-order Welch's t-test |
-| Statistical Threshold | ±4.5 |
-| Unprotected Operation-Level Evaluation | 100,000 traces |
-| Protected Operation-Level Evaluation | 1,000,000 traces |
+| FPGA frequency | 10 MHz |
+| Sampling rate | 156.25 MS/s |
+| Statistical method | Fixed-versus-random, first-order Welch's t-test |
+| Conventional threshold | Absolute t-score of 4.5 |
+| Unprotected trace count | 100,000 |
+| Protected trace count | 1,000,000 |
 
-In the figures, the horizontal axis denotes samples within the captured operation window, not the number of traces. The blue dashed lines mark the thresholds of +4.5 and −4.5. The unprotected and protected plots use different vertical scales; comparisons should therefore be made using the t-score values and threshold crossings rather than the visual amplitude alone.
+Fixed-versus-random TVLA compares two populations of measured traces acquired with fixed and randomized test values. A t-score exceeding either +4.5 or −4.5 is treated as a potential leakage indication requiring examination. Passing this threshold-based screening means only that no statistically significant first-order difference was detected in the measured region under the tested conditions. The test should not be interpreted as a proof of cryptographic security.
 
-### Unprotected ML-DSA Implementation
+### Evaluated Configurations
 
-The unprotected ML-DSA implementation is evaluated with masking, shuffling, and the PRNG disabled.
+**Unprotected baseline:** Masking, shuffling, and the pseudorandom number generator (PRNG) are disabled. This configuration establishes whether the evaluated arithmetic datapath exhibits detectable first-order leakage.
 
-All four evaluated arithmetic operations exhibit t-scores far beyond the statistical threshold of |t| = 4.5 using 100,000 power traces. The NTT exhibits repeated leakage peaks throughout execution, while the INTT shows pronounced positive and negative excursions. The PWM and PWA operations reach t-scores of approximately 300.
+**Protected implementation:** Masking and shuffling are enabled, with randomness provided by the on-chip PRNG. The protected evaluation covers NTT, INTT, PWM, and PWA operations for ML-DSA and includes corresponding protected-operation figures for ML-KEM.
 
-These results demonstrate substantial first-order leakage in the unprotected implementation and provide a baseline for comparison with the protected configuration.
+The protected ML-DSA flow additionally uses two independently shuffled NTT engines to process the shares. The flow-level experiment examines whether leakage appears at operation boundaries, during recombination and norm checking, or at signature encoding.
 
+### Unprotected ML-DSA Baseline
+
+The unprotected ML-DSA implementation is evaluated using **100,000 power traces**. With masking, shuffling, and PRNG disabled, all four arithmetic operations exhibit t-scores substantially beyond the ±4.5 threshold. NTT shows repeated leakage peaks across execution; INTT exhibits pronounced positive and negative excursions; and PWM and PWA reach t-scores of approximately **300**. These observations establish detectable first-order leakage in the unprotected baseline.
+
+| Operation | Observation | Traces |
+| --- | --- | ---: |
+| NTT | Repeated statistically significant leakage peaks | 100,000 |
+| INTT | Pronounced positive and negative threshold crossings | 100,000 |
+| PWM | Large excursions, approximately 300 in magnitude | 100,000 |
+| PWA | Large excursions, approximately 300 in magnitude | 100,000 |
+
+| (a) NTT | (b) INTT |
+| --- | --- |
 #### NTT — Unprotected
 
-![Unprotected ML-DSA NTT, first-order TVLA with 100,000 traces](./images/mldsa_unprotected_ntt_tvla_100k.png)
+![Unprotected ML-DSA NTT TVLA](./images/mldsa_unprotected_ntt_tvla_100k.png)
+
+**Figure 1(a) — Unprotected ML-DSA NTT.** Repeated positive and negative excursions exceed the ±4.5 thresholds throughout the transform, indicating statistically significant first-order differences in the unprotected NTT datapath.
 
 #### INTT — Unprotected
 
-![Unprotected ML-DSA INTT, first-order TVLA with 100,000 traces](./images/mldsa_unprotected_intt_tvla_100k.png)
+![Unprotected ML-DSA INTT TVLA](./images/mldsa_unprotected_intt_tvla_100k.png)
+
+**Figure 1(b) — Unprotected ML-DSA INTT.** Pronounced positive and negative threshold crossings show data-dependent power behavior during the unprotected inverse transform.
 
 #### PWM — Unprotected
 
-![Unprotected ML-DSA PWM, first-order TVLA with 100,000 traces](./images/mldsa_unprotected_pwm_tvla_100k.png)
+![Unprotected ML-DSA PWM TVLA](./images/mldsa_unprotected_pwm_tvla_100k.png)
+
+**Figure 1(c) — Unprotected ML-DSA PWM.** Large excursions, with t-score magnitudes approaching 300, indicate strong first-order differences in the point-wise multiplication measurement window.
 
 #### PWA — Unprotected
 
-![Unprotected ML-DSA PWA, first-order TVLA with 100,000 traces](./images/mldsa_unprotected_pwa_tvla_100k.png)
+![Unprotected ML-DSA PWA TVLA](./images/mldsa_unprotected_pwa_tvla_100k.png)
 
-**Figure 1.** First-order TVLA results for the unprotected ML-DSA implementation, shown in order: (a) NTT, (b) INTT, (c) PWM, and (d) PWA. Using 100,000 power traces, the t-scores exceed the thresholds of +4.5 and −4.5 across all evaluated operations, indicating statistically significant first-order leakage.
+**Figure 1(d) — Unprotected ML-DSA PWA.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
 
-### Protected ML-DSA Implementation
 
-The protected ML-DSA implementation is evaluated with masking and shuffling enabled and randomness supplied by the on-chip PRNG. Each operation is evaluated using 1,000,000 power traces.
+**Figure 1.** First-order TVLA for the unprotected ML-DSA NTT, INTT, PWM, and PWA operations using 100,000 power traces. Dashed blue lines mark ±4.5. All four evaluated operations exhibit statistically significant first-order differences.
 
-For NTT, INTT, PWM, and PWA, the t-scores remain within the statistical thresholds throughout the evaluated execution windows. No statistically significant first-order leakage is detected in these protected arithmetic operations under the tested conditions, despite using ten times as many traces as the unprotected baseline.
+### Protected ML-DSA Evaluation
 
+The protected ML-DSA implementation is evaluated with **masking and shuffling enabled** and randomness supplied by the on-chip PRNG. **One million power traces** are analyzed for each evaluated operation. For NTT, INTT, PWM, and PWA, the reported t-scores remain within ±4.5 throughout the evaluated execution windows. Thus, **no statistically significant first-order leakage is detected in these protected arithmetic regions under the tested conditions**, despite using ten times as many traces as the unprotected baseline.
+
+| Operation | Countermeasures | Traces | Reported outcome |
+| --- | --- | ---: | --- |
+| NTT | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
+| INTT | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
+| PWM | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
+| PWA | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
+
+| (a) NTT | (b) INTT |
+| --- | --- |
 #### NTT — Protected
 
-![Protected ML-DSA NTT, first-order TVLA with 1,000,000 traces](./images/mldsa_protected_ntt_tvla_1m.png)
+![Protected ML-DSA NTT TVLA](./images/mldsa_protected_ntt_tvla_1m.png)
+
+**Figure 2(a) — Protected ML-DSA NTT.** With masking and shuffling enabled, the t-scores remain within ±4.5 across the measured NTT window at one million traces, unlike the repeated peaks in the unprotected baseline.
 
 #### INTT — Protected
 
-![Protected ML-DSA INTT, first-order TVLA with 1,000,000 traces](./images/mldsa_protected_intt_tvla_1m.png)
+![Protected ML-DSA INTT TVLA](./images/mldsa_protected_intt_tvla_1m.png)
+
+**Figure 2(b) — Protected ML-DSA INTT.** The inverse transform remains within the first-order TVLA thresholds across the evaluated window using one million traces, in contrast to the unprotected INTT excursions.
 
 #### PWM — Protected
 
-![Protected ML-DSA PWM, first-order TVLA with 1,000,000 traces](./images/mldsa_protected_pwm_tvla_1m.png)
+![Protected ML-DSA PWM TVLA](./images/mldsa_protected_pwm_tvla_1m.png)
+
+**Figure 2(c) — Protected ML-DSA PWM.** No threshold crossing is detected in the evaluated protected multiplication window, compared with the strong unprotected PWM leakage.
 
 #### PWA — Protected
 
-![Protected ML-DSA PWA, first-order TVLA with 1,000,000 traces](./images/mldsa_protected_pwa_tvla_1m.png)
+![Protected ML-DSA PWA TVLA](./images/mldsa_protected_pwa_tvla_1m.png)
 
-**Figure 2.** First-order TVLA results for the protected ML-DSA implementation using one million power traces, shown in order: (a) NTT, (b) INTT, (c) PWM, and (d) PWA. The t-scores remain within ±4.5 across the evaluated operation windows, indicating no statistically significant first-order leakage under the tested conditions.
+**Figure 2(d) — Protected ML-DSA PWA.** The protected addition window remains within ±4.5 using one million traces, contrasting with the strong unprotected PWA leakage.
 
-### Protected ML-KEM Implementation
 
-The protected ML-KEM implementation is also evaluated using first-order fixed-versus-random TVLA. The evaluation covers NTT, INTT, PWM, and PWA, with 1,000,000 power traces for each operation.
+**Figure 2.** First-order TVLA for the protected ML-DSA NTT, INTT, PWM, and PWA operations using one million traces. Dashed blue lines indicate ±4.5. No threshold crossings are reported within the evaluated protected operation windows.
 
-The supplied operation-level plots show t-scores remaining within ±4.5 throughout the displayed windows. No statistically significant first-order leakage is observed in these protected arithmetic measurements under the tested conditions. These results are operation-level evidence, not an evaluation of every step of ML-KEM decapsulation.
+### Protected ML-KEM Evaluation
 
+The version 2.2 evaluation also includes protected-operation TVLA figures for **ML-KEM NTT, INTT, PWM, and PWA**. These measurements complement the ML-DSA results and extend coverage to the corresponding ML-KEM arithmetic datapath. The supplied protected ML-KEM plots are reproduced below. The same evaluation methodology and first-order threshold interpretation apply.
+
+| (a) NTT | (b) INTT |
+| --- | --- |
 #### NTT — Protected
 
-![Protected ML-KEM NTT, first-order TVLA with 1,000,000 traces](./images/mlkem_protected_ntt_tvla_1m.png)
+![Protected ML-KEM NTT TVLA](./images/mlkem_protected_ntt_tvla_1m.png)
+
+**Figure 3(a) — Protected ML-KEM NTT.** The plotted first-order t-scores remain within ±4.5 in the evaluated NTT window; this is an operation-level result rather than a full ML-KEM decapsulation assessment.
 
 #### INTT — Protected
 
-![Protected ML-KEM INTT, first-order TVLA with 1,000,000 traces](./images/mlkem_protected_intt_tvla_1m.png)
+![Protected ML-KEM INTT TVLA](./images/mlkem_protected_intt_tvla_1m.png)
+
+**Figure 3(b) — Protected ML-KEM INTT.** No statistically significant first-order threshold crossing is observed in the measured inverse-transform window.
 
 #### PWM — Protected
 
-![Protected ML-KEM PWM, first-order TVLA with 1,000,000 traces](./images/mlkem_protected_pwm_tvla_1m.png)
+![Protected ML-KEM PWM TVLA](./images/mlkem_protected_pwm_tvla_1m.png)
+
+**Figure 3(c) — Protected ML-KEM PWM.** The measured point-wise multiplication t-scores remain within the ±4.5 screening bounds under the evaluated protected configuration.
 
 #### PWA — Protected
 
-![Protected ML-KEM PWA, first-order TVLA with 1,000,000 traces](./images/mlkem_protected_pwa_tvla_1m.png)
+![Protected ML-KEM PWA TVLA](./images/mlkem_protected_pwa_tvla_1m.png)
 
-**Figure 3.** First-order TVLA results for the protected ML-KEM implementation using one million power traces, shown in order: (a) NTT, (b) INTT, (c) PWM, and (d) PWA. The blue dashed lines represent ±4.5; the plotted t-scores remain within these thresholds.
+**Figure 3(d) — Protected ML-KEM PWA.** The measured point-wise addition t-scores remain within the first-order TVLA screening bounds in the displayed window.
+
+
+**Figure 3.** First-order TVLA plots for protected ML-KEM NTT, INTT, PWM, and PWA operations. Dashed blue lines indicate the ±4.5 screening thresholds.
+
+**Reporting note:** The accompanying supplied prose explicitly establishes the one-million-trace pass result for *ML-DSA*, but does not separately state the numerical trace count and threshold outcome for each of the four new ML-KEM plots. Those ML-KEM details should be verified from the trace metadata before labeling all four as one-million-trace passes.
 
 ### ML-DSA NTT-Domain Flow Evaluation
 
-To evaluate the masking boundary rather than only isolated operations, we also perform TVLA on a continuous sequence of the protected ML-DSA signing flow, from the forward NTT of the shares to signature encoding.
+In addition to isolated arithmetic operations, the evaluation examines a **complete sequence of the masked ML-DSA NTT-domain flow**, from the forward NTT of the shares through signature encoding. This sequence-level test is intended to evaluate the masking boundary and detect leakage that might not be apparent when operations are measured in isolation. It is not a claim that every stage of the entire ML-DSA signing algorithm is included.
 
-Throughout NTT, PWM, INTT, and PWA, the two shares are processed by two independently shuffled NTT engines. The reported t-scores remain within the statistical thresholds during these protected arithmetic operations.
+During NTT, PWM, INTT, and PWA, the two shares are processed using two independently shuffled NTT engines. The reported t-scores remain within ±4.5 throughout these protected regions. During the norm check, which operates on recombined coefficients of **z**, t-scores remain close to the screening thresholds.
 
-During the norm check, which operates on recombined coefficients of the signature component `z`, the reported t-scores remain close to the statistical thresholds. Significant excursions appear during SIGENC, which encodes and outputs the recombined signature component `z`.
+Significant excursions are reported during **SIGENC**, where the recombined signature component **z** is encoded and output. Because **z** is part of the public signature, and is fixed in one TVLA population and random in the other, data-dependent power differences during its public encoding are expected. These differences must be interpreted in the context of the public output rather than automatically attributed to secret-key leakage. This distinction does not, by itself, prove that no additional secret-dependent information is present.
 
-For an accepted signature, `z` is part of the public output. Since `z` is fixed in one population of this fixed-versus-random test and random in the other, data-dependent leakage during its encoding is expected. Such leakage does not, by itself, indicate disclosure of secret-dependent information beyond the public signature. This interpretation does not extend to rejected candidates or other intermediate values that are not released as public outputs.
+| Flow region | Reported observation | Interpretation |
+| --- | --- | --- |
+| NTT of shares | Within ±4.5 | No detected first-order difference in evaluated region |
+| PWM | Within ±4.5 | No detected first-order difference in evaluated region |
+| INTT | Within ±4.5 | No detected first-order difference in evaluated region |
+| PWA | Within ±4.5 | No detected first-order difference in evaluated region |
+| Norm check on recombined z | Close to thresholds | Boundary region requiring contextual interpretation |
+| SIGENC | Significant excursions | Expected public-output-dependent differences from encoding z |
 
-These observations support the effectiveness of the masking boundary across the evaluated NTT-domain arithmetic sequence. They also demonstrate the importance of distinguishing leakage from protected secret-dependent computations from expected data-dependent leakage associated with public outputs. Near-threshold behavior at the norm check should be assessed separately rather than treated as evidence that all recombined processing is leakage-free.
+**Figure 4 (to be added).** Sequence-level first-order TVLA from the forward NTT of the shares through ML-DSA signature encoding, including protected arithmetic, norm checking, and SIGENC. The flow-level figure was referenced in the supplied paper text but was not among the twelve supplied operation plots; its image path must be added once available.
 
-The continuous-flow observations are reported qualitatively here; a corresponding flow plot and trace count are not included in this update.
+### Results Summary
 
-### Summary of Adams Bridge 2.2 Results
+| Algorithm | Configuration | Evaluated region | Traces | Observation |
+| --- | --- | --- | ---: | --- |
+| ML-DSA | Unprotected | NTT | 100,000 | First-order leakage detected |
+| ML-DSA | Unprotected | INTT | 100,000 | First-order leakage detected |
+| ML-DSA | Unprotected | PWM | 100,000 | First-order leakage detected |
+| ML-DSA | Unprotected | PWA | 100,000 | First-order leakage detected |
+| ML-DSA | Masked + shuffled | NTT | 1,000,000 | No detected first-order leakage |
+| ML-DSA | Masked + shuffled | INTT | 1,000,000 | No detected first-order leakage |
+| ML-DSA | Masked + shuffled | PWM | 1,000,000 | No detected first-order leakage |
+| ML-DSA | Masked + shuffled | PWA | 1,000,000 | No detected first-order leakage |
+| ML-KEM | Protected | NTT, INTT, PWM, PWA | Verify per plot | New protected-operation plots supplied |
+| ML-DSA | Masked + shuffled | NTT-domain flow through SIGENC | Not specified in supplied text | Protected arithmetic below thresholds; SIGENC excursions attributed to public z |
 
-| Algorithm | Configuration | Operation | Power Traces | TVLA Observation |
-|---|---|---|---:|---|
-| ML-DSA | Unprotected | NTT | 100,000 | Significant first-order leakage |
-| ML-DSA | Unprotected | INTT | 100,000 | Significant first-order leakage |
-| ML-DSA | Unprotected | PWM | 100,000 | Significant first-order leakage |
-| ML-DSA | Unprotected | PWA | 100,000 | Significant first-order leakage |
-| ML-DSA | Masking + Shuffling | NTT | 1,000,000 | No significant first-order leakage detected |
-| ML-DSA | Masking + Shuffling | INTT | 1,000,000 | No significant first-order leakage detected |
-| ML-DSA | Masking + Shuffling | PWM | 1,000,000 | No significant first-order leakage detected |
-| ML-DSA | Masking + Shuffling | PWA | 1,000,000 | No significant first-order leakage detected |
-| ML-KEM | Masking + Shuffling | NTT | 1,000,000 | No significant first-order leakage observed |
-| ML-KEM | Masking + Shuffling | INTT | 1,000,000 | No significant first-order leakage observed |
-| ML-KEM | Masking + Shuffling | PWM | 1,000,000 | No significant first-order leakage observed |
-| ML-KEM | Masking + Shuffling | PWA | 1,000,000 | No significant first-order leakage observed |
+The unprotected ML-DSA baseline exhibits pronounced first-order leakage, whereas the protected ML-DSA arithmetic operations do not show statistically significant first-order differences in the evaluated one-million-trace windows. The sequence-level evaluation provides additional evidence about operation boundaries and recombination. Leakage observed during public signature encoding is distinguished from leakage within protected secret-processing operations.
 
+### Interpretation and Limitations
 
-### Security Interpretation
+- **TVLA is a leakage-detection test.** A result within ±4.5 does not establish provable resistance to key recovery or higher-order attacks.
+- **Operation-level versus flow-level scope matters.** The ML-DSA sequence-level evaluation covers the stated NTT-domain sequence, not necessarily the complete key-generation, signing, and verification algorithms.
+- **Public output must be distinguished from secret processing.** SIGENC encodes the public signature component z; fixed-versus-random differences there are not, by themselves, evidence of secret-key leakage.
+- **Norm-check boundaries deserve separate scrutiny.** T-scores near the threshold should be documented without overstating the result.
+- **The results are implementation- and setup-specific.** The evidence pertains to the tested FPGA configuration, clock frequency, sampling setup, input populations, and trace counts.
+- **Masking security is not formally established by TVLA.** The earlier documentation notes that the implementation is not formally proven secure under the robust probing model.
 
-The unprotected ML-DSA implementation exhibits substantial first-order side-channel leakage across all evaluated arithmetic operations. In contrast, the protected ML-DSA measurements show no statistically significant first-order leakage in the evaluated NTT, INTT, PWM, and PWA windows using one million power traces. The protected ML-KEM operation-level plots likewise remain within the first-order TVLA thresholds at one million traces.
+### Changes in Version 2.2
 
-The continuous ML-DSA NTT-domain evaluation further indicates that the shares remain protected during the evaluated arithmetic sequence, while significant data-dependent leakage becomes observable during signature encoding. Interpreting this boundary requires accounting for which values are actually released in an accepted public signature.
+Relative to the historical v1.0–v1.2 documentation, this release adds:
 
-These results provide empirical evidence of the effectiveness of the implemented countermeasures against first-order leakage under the evaluated conditions. However, first-order TVLA does not constitute a formal security proof and does not exclude higher-order leakage, alternative side-channel attack strategies, or leakage outside the evaluated computation regions. FPGA power measurements do not establish equivalent leakage behavior on other physical platforms or for other measurement modalities.
-
-The ML-KEM results do not change the [ephemeral decapsulation-key usage-model restriction](./AdamsBridge_MLKEM.md#usage-model-restriction-decapsulation-key-reuse). Resistance to multi-query chosen-ciphertext side-channel attacks under a reused decapsulation key remains outside the stated threat model.
-
-### Change Log
-
-- **v2.2 (2026):** Updated the experimental setup and added first-order TVLA evaluations of unprotected and protected ML-DSA NTT, INTT, PWM, and PWA operations. Added protected ML-KEM operation-level measurements and the reported ML-DSA NTT-domain flow evaluation, including interpretation of leakage during public signature encoding and limitations of the evaluated scope.
-- **v1.2:** Added ML-KEM decapsulation usage-model scope.
-- **v1.1 (2025-08-19):** Added ML-KEM/ML-DSA PWM, masking and shuffling evaluations, INTT TVLA, and leakage observations.
-- **v1.0:** Reported NTT and PWM results with shuffling enabled.
-
----
+1. Updated SCA-specific CW310 / PicoScope 6424E experimental setup and 156.25 MS/s sampling specification.
+2. New unprotected ML-DSA NTT, INTT, PWM, and PWA TVLA results using 100,000 traces.
+3. New protected ML-DSA NTT, INTT, PWM, and PWA TVLA results using one million traces.
+4. Protected ML-KEM operation-level NTT, INTT, PWM, and PWA plots.
+5. Sequence-level ML-DSA NTT-domain evaluation and interpretation of the norm-check and public SIGENC regions.
+6. Explicit separation of observed first-order leakage, absence of detected first-order leakage, and public-output-dependent leakage.
 
 ## Formal Validation
 Unlike other SCA countermeasures, masking is a provable countermeasure. It can be formally verified using an accepted simulation and probing model. Boolean domain-oriented masking (DOM) AND gates or arithmetic DOM multiplier gadgets are constructed as building blocks for implementing masking countermeasures. 
