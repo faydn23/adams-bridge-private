@@ -214,7 +214,11 @@ The unprotected ML-DSA implementation is evaluated using **100,000 power traces*
 
 #### NTT — Unprotected
 
-![Unprotected ML-DSA NTT TVLA](./images/mldsa_unprotected_ntt_tvla_100k.png)
+<p align="center">
+  <img src="./images/mldsa_unprotected_ntt_tvla_100k.png"
+       width="60%"
+       alt="Unprotected ML-DSA NTT">
+</p>
 
 **Figure 1 — Unprotected ML-DSA NTT.** Repeated positive and negative excursions exceed the ±4.5 thresholds throughout the transform, indicating statistically significant first-order differences in the unprotected NTT datapath.
 
