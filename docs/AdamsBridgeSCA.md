@@ -237,7 +237,7 @@ The unprotected ML-DSA implementation is evaluated using **100,000 power traces*
 **Figure 4 — Unprotected ML-DSA PWA.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
 
 
-**Figure 1--4** First-order TVLA for the unprotected ML-DSA NTT, INTT, PWM, and PWA operations using 100,000 power traces. Dashed blue lines mark ±4.5. All four evaluated operations exhibit statistically significant first-order differences.
+**Figure 1-4** First-order TVLA for the unprotected ML-DSA NTT, INTT, PWM, and PWA operations using 100,000 power traces. Dashed blue lines mark ±4.5. All four evaluated operations exhibit statistically significant first-order differences.
 
 ### Protected ML-DSA Evaluation
 
@@ -276,7 +276,7 @@ The protected ML-DSA implementation is evaluated with **masking and shuffling en
 **Figure 8 — Protected ML-DSA PWA.** The protected addition window remains within ±4.5 using one million traces, contrasting with the strong unprotected PWA leakage.
 
 
-**Figure 5--8.** First-order TVLA for the protected ML-DSA NTT, INTT, PWM, and PWA operations using one million traces. Dashed blue lines indicate ±4.5. No threshold crossings are reported within the evaluated protected operation windows.
+**Figure 5-8.** First-order TVLA for the protected ML-DSA NTT, INTT, PWM, and PWA operations using one million traces. Dashed blue lines indicate ±4.5. No threshold crossings are reported within the evaluated protected operation windows.
 
 ### Protected ML-KEM Evaluation
 
@@ -298,7 +298,7 @@ The version 2.2 evaluation also includes protected-operation TVLA figures for **
 
 ![Protected ML-KEM PWM TVLA](./images/mlkem_protected_pwm_tvla_1m.png)
 
-**Figure 12 — Protected ML-KEM PWM.** The measured point-wise multiplication t-scores remain within the ±4.5 screening bounds under the evaluated protected configuration.
+**Figure 11 — Protected ML-KEM PWM.** The measured point-wise multiplication t-scores remain within the ±4.5 screening bounds under the evaluated protected configuration.
 
 #### PWA — Protected
 
@@ -307,12 +307,14 @@ The version 2.2 evaluation also includes protected-operation TVLA figures for **
 **Figure 12 — Protected ML-KEM PWA.** The measured point-wise addition t-scores remain within the first-order TVLA screening bounds in the displayed window.
 
 
-**Figure 9--12.** First-order TVLA plots for protected ML-KEM NTT, INTT, PWM, and PWA operations. Dashed blue lines indicate the ±4.5 screening thresholds.
+**Figure 9-12.** First-order TVLA plots for protected ML-KEM NTT, INTT, PWM, and PWA operations. Dashed blue lines indicate the ±4.5 screening thresholds.
 
 
 ### ML-DSA NTT-Domain Flow Evaluation
 
-In addition to isolated arithmetic operations, the evaluation examines a **complete sequence of the masked ML-DSA NTT-domain flow**, from the forward NTT of the shares through signature encoding. This sequence-level test is intended to evaluate the masking boundary and detect leakage that might not be apparent when operations are measured in isolation. It is not a claim that every stage of the entire ML-DSA signing algorithm is included.
+![Protected ML-KEM PWA TVLA](./images/mldsa_protected_example_sequence.png)
+
+**Figure 13 — ML-DSA NTT-Domain Flow Evaluation.** First-order TVLA results for the complete NTT-domain flow of the protected ML-DSA implementation, comprising NTT, PWM, INTT, PWA, the norm check (NORMCHK), and signature encoding (SIGENC), using one million power traces. The red dashed lines indicate the statistical thresholds of +4.5 and −4.5. The excursions during SIGENC correspond to the encoding of the public signature component z, which differs between the fixed and random input sets by construction.
 
 During NTT, PWM, INTT, and PWA, the two shares are processed using two independently shuffled NTT engines. The reported t-scores remain within ±4.5 throughout these protected regions. During the norm check, which operates on recombined coefficients of **z**, t-scores remain close to the screening thresholds.
 
