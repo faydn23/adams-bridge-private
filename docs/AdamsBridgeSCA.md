@@ -245,7 +245,16 @@ The unprotected ML-DSA implementation is evaluated using **100,000 power traces*
 **Figure 4 — Unprotected ML-DSA PWA.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
 
 
-**Figure 1-4** First-order TVLA for the unprotected ML-DSA NTT, INTT, PWM, and PWA operations using 100,000 power traces. Dashed blue lines mark ±4.5. All four evaluated operations exhibit statistically significant first-order differences.
+### KECCAK — Unprotected
+
+<img src="./images/mldsa_unprotected_keccak_tvla_100k.png"
+     width="60%"
+     alt="Unprotected ML-DSA PWA TVLA">
+
+**Figure 5 — Unprotected ML-DSA KECCAK.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
+
+
+**Figure 1-5** First-order TVLA for the unprotected ML-DSA NTT, INTT, PWM, and PWA operations using 100,000 power traces. Dashed blue lines mark ±4.5. All four evaluated operations exhibit statistically significant first-order differences.
 
 ### Protected ML-DSA Evaluation
 
@@ -265,7 +274,7 @@ The protected ML-DSA implementation is evaluated with **masking and shuffling en
      width="60%"
      alt="Protected ML-DSA NTT TVLA">
 
-**Figure 5 — Protected ML-DSA NTT.** With masking and shuffling enabled, the t-scores remain within ±4.5 across the measured NTT window at one million traces, unlike the repeated peaks in the unprotected baseline.
+**Figure 6 — Protected ML-DSA NTT.** With masking and shuffling enabled, the t-scores remain within ±4.5 across the measured NTT window at one million traces, unlike the repeated peaks in the unprotected baseline.
 
 #### INTT — Protected
 
@@ -273,7 +282,7 @@ The protected ML-DSA implementation is evaluated with **masking and shuffling en
      width="60%"
      alt="Protected ML-DSA INTT TVLA">
 
-**Figure 6 — Protected ML-DSA INTT.** The inverse transform remains within the first-order TVLA thresholds across the evaluated window using one million traces, in contrast to the unprotected INTT excursions.
+**Figure 7 — Protected ML-DSA INTT.** The inverse transform remains within the first-order TVLA thresholds across the evaluated window using one million traces, in contrast to the unprotected INTT excursions.
 
 #### PWM — Protected
 
@@ -330,6 +339,14 @@ The version 2.0 evaluation also includes protected-operation TVLA figures for **
 
 **Figure 12 — Protected ML-KEM PWA.** The measured point-wise addition t-scores remain within the first-order TVLA screening bounds in the displayed window.
 
+### KECCAK — Unprotected
+
+<img src="./images/mldsa_protected_keccak_tvla_1m.png"
+     width="60%"
+     alt="Unprotected ML-DSA KECCAK TVLA">
+
+**Figure 5 — Protected ML-DSA KECCAK.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
+
 
 **Figure 9-12.** First-order TVLA plots for protected ML-KEM NTT, INTT, PWM, and PWA operations. Dashed blue lines indicate the ±4.5 screening thresholds.
 
@@ -362,10 +379,16 @@ Significant excursions are reported during **SIGENC**, where the recombined sign
 | ML-DSA | Unprotected | INTT | 100,000 | First-order leakage detected |
 | ML-DSA | Unprotected | PWM | 100,000 | First-order leakage detected |
 | ML-DSA | Unprotected | PWA | 100,000 | First-order leakage detected |
+| ML-DSA | Unprotected | KECCAK | 100,000 | First-order leakage detected |
+| ML-KEM | Unprotected | NTT | 100,000 | First-order leakage detected |
+| ML-KEM | Unprotected | INTT | 100,000 | First-order leakage detected |
+| ML-KEM | Unprotected | PWM | 100,000 | First-order leakage detected |
+| ML-KEM | Unprotected | PWA | 100,000 | First-order leakage detected |
 | ML-DSA | Masked + shuffled | NTT | 1,000,000 | No detected first-order leakage |
 | ML-DSA | Masked + shuffled | INTT | 1,000,000 | No detected first-order leakage |
 | ML-DSA | Masked + shuffled | PWM | 1,000,000 | No detected first-order leakage |
 | ML-DSA | Masked + shuffled | PWA | 1,000,000 | No detected first-order leakage |
+| ML-DSA | Masked + shuffled  | KECCAK | 1,000,000 | No leakage detected except reading data from memory|
 | ML-KEM | Masked + shuffled | NTT | 1,000,000 | No detected first-order leakage |
 | ML-KEM | Masked + shuffled | INTT | 1,000,000 | No detected first-order leakage |
 | ML-KEM | Masked + shuffled | PWM | 1,000,000 | No detected first-order leakage |
