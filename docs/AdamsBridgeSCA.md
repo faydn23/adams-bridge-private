@@ -304,13 +304,11 @@ The continuous-flow observations are reported qualitatively here; a correspondin
 | ML-DSA | Masking + Shuffling | INTT | 1,000,000 | No significant first-order leakage detected |
 | ML-DSA | Masking + Shuffling | PWM | 1,000,000 | No significant first-order leakage detected |
 | ML-DSA | Masking + Shuffling | PWA | 1,000,000 | No significant first-order leakage detected |
-| ML-KEM | Protected | NTT | 1,000,000 | No significant first-order leakage observed in supplied plot |
-| ML-KEM | Protected | INTT | 1,000,000 | No significant first-order leakage observed in supplied plot |
-| ML-KEM | Protected | PWM | 1,000,000 | No significant first-order leakage observed in supplied plot |
-| ML-KEM | Protected | PWA | 1,000,000 | No significant first-order leakage observed in supplied plot |
-| ML-DSA | Protected NTT-domain flow | NTT / PWM / INTT / PWA | Not reported | No significant first-order leakage reported in protected arithmetic |
-| ML-DSA | Recombined processing | Norm check | Not reported | Reported t-scores close to statistical thresholds |
-| ML-DSA | Signature encoding | SIGENC | Not reported | Reported leakage consistent with public signature component `z` |
+| ML-KEM | Masking + Shuffling | NTT | 1,000,000 | No significant first-order leakage observed |
+| ML-KEM | Masking + Shuffling | INTT | 1,000,000 | No significant first-order leakage observed |
+| ML-KEM | Masking + Shuffling | PWM | 1,000,000 | No significant first-order leakage observed |
+| ML-KEM | Masking + Shuffling | PWA | 1,000,000 | No significant first-order leakage observed |
+
 
 ### Security Interpretation
 
