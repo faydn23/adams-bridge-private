@@ -214,29 +214,33 @@ The unprotected ML-DSA implementation is evaluated using **100,000 power traces*
 
 #### NTT — Unprotected
 
-<p align="center">
-  <img src="./images/mldsa_unprotected_ntt_tvla_100k.png"
-       width="60%"
-       alt="Unprotected ML-DSA NTT">
-</p>
+<img src="./images/mldsa_unprotected_ntt_tvla_100k.png"
+     width="60%"
+     alt="Unprotected ML-DSA NTT TVLA">
 
 **Figure 1 — Unprotected ML-DSA NTT.** Repeated positive and negative excursions exceed the ±4.5 thresholds throughout the transform, indicating statistically significant first-order differences in the unprotected NTT datapath.
 
 #### INTT — Unprotected
 
-![Unprotected ML-DSA INTT TVLA](./images/mldsa_unprotected_intt_tvla_100k.png)
+<img src="./images/mldsa_unprotected_intt_tvla_100k.png"
+     width="60%"
+     alt="Unprotected ML-DSA INTT TVLA">
 
 **Figure 2 — Unprotected ML-DSA INTT.** Pronounced positive and negative threshold crossings show data-dependent power behavior during the unprotected inverse transform.
 
 #### PWM — Unprotected
 
-![Unprotected ML-DSA PWM TVLA](./images/mldsa_unprotected_pwm_tvla_100k.png)
+<img src="./images/mldsa_unprotected_pwm_tvla_100k.png"
+     width="60%"
+     alt="Unprotected ML-DSA PWM TVLA">
 
 **Figure 3 — Unprotected ML-DSA PWM.** Large excursions, with t-score magnitudes approaching 300, indicate strong first-order differences in the point-wise multiplication measurement window.
 
 #### PWA — Unprotected
 
-![Unprotected ML-DSA PWA TVLA](./images/mldsa_unprotected_pwa_tvla_100k.png)
+<img src="./images/mldsa_unprotected_pwa_tvla_100k.png"
+     width="60%"
+     alt="Unprotected ML-DSA PWA TVLA">
 
 **Figure 4 — Unprotected ML-DSA PWA.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
 
@@ -257,25 +261,33 @@ The protected ML-DSA implementation is evaluated with **masking and shuffling en
 
 #### NTT — Protected
 
-![Protected ML-DSA NTT TVLA](./images/mldsa_protected_ntt_tvla_1m.png)
+<img src="./images/mldsa_protected_ntt_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-DSA NTT TVLA">
 
 **Figure 5 — Protected ML-DSA NTT.** With masking and shuffling enabled, the t-scores remain within ±4.5 across the measured NTT window at one million traces, unlike the repeated peaks in the unprotected baseline.
 
 #### INTT — Protected
 
-![Protected ML-DSA INTT TVLA](./images/mldsa_protected_intt_tvla_1m.png)
+<img src="./images/mldsa_protected_intt_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-DSA INTT TVLA">
 
 **Figure 6 — Protected ML-DSA INTT.** The inverse transform remains within the first-order TVLA thresholds across the evaluated window using one million traces, in contrast to the unprotected INTT excursions.
 
 #### PWM — Protected
 
-![Protected ML-DSA PWM TVLA](./images/mldsa_protected_pwm_tvla_1m.png)
+<img src="./images/mldsa_protected_pwm_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-DSA PWM TVLA">
 
 **Figure 7 — Protected ML-DSA PWM.** No threshold crossing is detected in the evaluated protected multiplication window, compared with the strong unprotected PWM leakage.
 
 #### PWA — Protected
 
-![Protected ML-DSA PWA TVLA](./images/mldsa_protected_pwa_tvla_1m.png)
+<img src="./images/mldsa_protected_pwa_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-DSA PWA TVLA">
 
 **Figure 8 — Protected ML-DSA PWA.** The protected addition window remains within ±4.5 using one million traces, contrasting with the strong unprotected PWA leakage.
 
@@ -288,25 +300,33 @@ The version 2.0 evaluation also includes protected-operation TVLA figures for **
 
 #### NTT — Protected
 
-![Protected ML-KEM NTT TVLA](./images/mlkem_protected_ntt_tvla_1m.png)
+<img src="./images/mlkem_protected_ntt_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-KEM NTT TVLA">
 
 **Figure 9 — Protected ML-KEM NTT.** The plotted first-order t-scores remain within ±4.5 in the evaluated NTT window; this is an operation-level result rather than a full ML-KEM decapsulation assessment.
 
 #### INTT — Protected
 
-![Protected ML-KEM INTT TVLA](./images/mlkem_protected_intt_tvla_1m.png)
+<img src="./images/mlkem_protected_intt_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-KEM INTT TVLA">
 
 **Figure 10 — Protected ML-KEM INTT.** No statistically significant first-order threshold crossing is observed in the measured inverse-transform window.
 
 #### PWM — Protected
 
-![Protected ML-KEM PWM TVLA](./images/mlkem_protected_pwm_tvla_1m.png)
+<img src="./images/mlkem_protected_pwm_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-KEM PWM TVLA">
 
 **Figure 11 — Protected ML-KEM PWM.** The measured point-wise multiplication t-scores remain within the ±4.5 screening bounds under the evaluated protected configuration.
 
 #### PWA — Protected
 
-![Protected ML-KEM PWA TVLA](./images/mlkem_protected_pwa_tvla_1m.png)
+<img src="./images/mlkem_protected_pwa_tvla_1m.png"
+     width="60%"
+     alt="Protected ML-KEM PWA TVLA">
 
 **Figure 12 — Protected ML-KEM PWA.** The measured point-wise addition t-scores remain within the first-order TVLA screening bounds in the displayed window.
 
