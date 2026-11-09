@@ -212,34 +212,32 @@ The unprotected ML-DSA implementation is evaluated using **100,000 power traces*
 | PWM | Large excursions, approximately 300 in magnitude | 100,000 |
 | PWA | Large excursions, approximately 300 in magnitude | 100,000 |
 
-| (a) NTT | (b) INTT |
-| --- | --- |
 #### NTT — Unprotected
 
 ![Unprotected ML-DSA NTT TVLA](./images/mldsa_unprotected_ntt_tvla_100k.png)
 
-**Figure 1(a) — Unprotected ML-DSA NTT.** Repeated positive and negative excursions exceed the ±4.5 thresholds throughout the transform, indicating statistically significant first-order differences in the unprotected NTT datapath.
+**Figure 1 — Unprotected ML-DSA NTT.** Repeated positive and negative excursions exceed the ±4.5 thresholds throughout the transform, indicating statistically significant first-order differences in the unprotected NTT datapath.
 
 #### INTT — Unprotected
 
 ![Unprotected ML-DSA INTT TVLA](./images/mldsa_unprotected_intt_tvla_100k.png)
 
-**Figure 1(b) — Unprotected ML-DSA INTT.** Pronounced positive and negative threshold crossings show data-dependent power behavior during the unprotected inverse transform.
+**Figure 2 — Unprotected ML-DSA INTT.** Pronounced positive and negative threshold crossings show data-dependent power behavior during the unprotected inverse transform.
 
 #### PWM — Unprotected
 
 ![Unprotected ML-DSA PWM TVLA](./images/mldsa_unprotected_pwm_tvla_100k.png)
 
-**Figure 1(c) — Unprotected ML-DSA PWM.** Large excursions, with t-score magnitudes approaching 300, indicate strong first-order differences in the point-wise multiplication measurement window.
+**Figure 3 — Unprotected ML-DSA PWM.** Large excursions, with t-score magnitudes approaching 300, indicate strong first-order differences in the point-wise multiplication measurement window.
 
 #### PWA — Unprotected
 
 ![Unprotected ML-DSA PWA TVLA](./images/mldsa_unprotected_pwa_tvla_100k.png)
 
-**Figure 1(d) — Unprotected ML-DSA PWA.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
+**Figure 4 — Unprotected ML-DSA PWA.** T-score magnitudes approaching 300 indicate substantial first-order differences during unprotected point-wise addition.
 
 
-**Figure 1.** First-order TVLA for the unprotected ML-DSA NTT, INTT, PWM, and PWA operations using 100,000 power traces. Dashed blue lines mark ±4.5. All four evaluated operations exhibit statistically significant first-order differences.
+**Figure 1--4** First-order TVLA for the unprotected ML-DSA NTT, INTT, PWM, and PWA operations using 100,000 power traces. Dashed blue lines mark ±4.5. All four evaluated operations exhibit statistically significant first-order differences.
 
 ### Protected ML-DSA Evaluation
 
@@ -252,69 +250,65 @@ The protected ML-DSA implementation is evaluated with **masking and shuffling en
 | PWM | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
 | PWA | Masking + shuffling | 1,000,000 | No detected first-order leakage in evaluated window |
 
-| (a) NTT | (b) INTT |
-| --- | --- |
+
 #### NTT — Protected
 
 ![Protected ML-DSA NTT TVLA](./images/mldsa_protected_ntt_tvla_1m.png)
 
-**Figure 2(a) — Protected ML-DSA NTT.** With masking and shuffling enabled, the t-scores remain within ±4.5 across the measured NTT window at one million traces, unlike the repeated peaks in the unprotected baseline.
+**Figure 5 — Protected ML-DSA NTT.** With masking and shuffling enabled, the t-scores remain within ±4.5 across the measured NTT window at one million traces, unlike the repeated peaks in the unprotected baseline.
 
 #### INTT — Protected
 
 ![Protected ML-DSA INTT TVLA](./images/mldsa_protected_intt_tvla_1m.png)
 
-**Figure 2(b) — Protected ML-DSA INTT.** The inverse transform remains within the first-order TVLA thresholds across the evaluated window using one million traces, in contrast to the unprotected INTT excursions.
+**Figure 6 — Protected ML-DSA INTT.** The inverse transform remains within the first-order TVLA thresholds across the evaluated window using one million traces, in contrast to the unprotected INTT excursions.
 
 #### PWM — Protected
 
 ![Protected ML-DSA PWM TVLA](./images/mldsa_protected_pwm_tvla_1m.png)
 
-**Figure 2(c) — Protected ML-DSA PWM.** No threshold crossing is detected in the evaluated protected multiplication window, compared with the strong unprotected PWM leakage.
+**Figure 7 — Protected ML-DSA PWM.** No threshold crossing is detected in the evaluated protected multiplication window, compared with the strong unprotected PWM leakage.
 
 #### PWA — Protected
 
 ![Protected ML-DSA PWA TVLA](./images/mldsa_protected_pwa_tvla_1m.png)
 
-**Figure 2(d) — Protected ML-DSA PWA.** The protected addition window remains within ±4.5 using one million traces, contrasting with the strong unprotected PWA leakage.
+**Figure 8 — Protected ML-DSA PWA.** The protected addition window remains within ±4.5 using one million traces, contrasting with the strong unprotected PWA leakage.
 
 
-**Figure 2.** First-order TVLA for the protected ML-DSA NTT, INTT, PWM, and PWA operations using one million traces. Dashed blue lines indicate ±4.5. No threshold crossings are reported within the evaluated protected operation windows.
+**Figure 5--8.** First-order TVLA for the protected ML-DSA NTT, INTT, PWM, and PWA operations using one million traces. Dashed blue lines indicate ±4.5. No threshold crossings are reported within the evaluated protected operation windows.
 
 ### Protected ML-KEM Evaluation
 
 The version 2.2 evaluation also includes protected-operation TVLA figures for **ML-KEM NTT, INTT, PWM, and PWA**. These measurements complement the ML-DSA results and extend coverage to the corresponding ML-KEM arithmetic datapath. The supplied protected ML-KEM plots are reproduced below. The same evaluation methodology and first-order threshold interpretation apply.
 
-| (a) NTT | (b) INTT |
-| --- | --- |
 #### NTT — Protected
 
 ![Protected ML-KEM NTT TVLA](./images/mlkem_protected_ntt_tvla_1m.png)
 
-**Figure 3(a) — Protected ML-KEM NTT.** The plotted first-order t-scores remain within ±4.5 in the evaluated NTT window; this is an operation-level result rather than a full ML-KEM decapsulation assessment.
+**Figure 9 — Protected ML-KEM NTT.** The plotted first-order t-scores remain within ±4.5 in the evaluated NTT window; this is an operation-level result rather than a full ML-KEM decapsulation assessment.
 
 #### INTT — Protected
 
 ![Protected ML-KEM INTT TVLA](./images/mlkem_protected_intt_tvla_1m.png)
 
-**Figure 3(b) — Protected ML-KEM INTT.** No statistically significant first-order threshold crossing is observed in the measured inverse-transform window.
+**Figure 10 — Protected ML-KEM INTT.** No statistically significant first-order threshold crossing is observed in the measured inverse-transform window.
 
 #### PWM — Protected
 
 ![Protected ML-KEM PWM TVLA](./images/mlkem_protected_pwm_tvla_1m.png)
 
-**Figure 3(c) — Protected ML-KEM PWM.** The measured point-wise multiplication t-scores remain within the ±4.5 screening bounds under the evaluated protected configuration.
+**Figure 12 — Protected ML-KEM PWM.** The measured point-wise multiplication t-scores remain within the ±4.5 screening bounds under the evaluated protected configuration.
 
 #### PWA — Protected
 
 ![Protected ML-KEM PWA TVLA](./images/mlkem_protected_pwa_tvla_1m.png)
 
-**Figure 3(d) — Protected ML-KEM PWA.** The measured point-wise addition t-scores remain within the first-order TVLA screening bounds in the displayed window.
+**Figure 12 — Protected ML-KEM PWA.** The measured point-wise addition t-scores remain within the first-order TVLA screening bounds in the displayed window.
 
 
-**Figure 3.** First-order TVLA plots for protected ML-KEM NTT, INTT, PWM, and PWA operations. Dashed blue lines indicate the ±4.5 screening thresholds.
+**Figure 9--12.** First-order TVLA plots for protected ML-KEM NTT, INTT, PWM, and PWA operations. Dashed blue lines indicate the ±4.5 screening thresholds.
 
-**Reporting note:** The accompanying supplied prose explicitly establishes the one-million-trace pass result for *ML-DSA*, but does not separately state the numerical trace count and threshold outcome for each of the four new ML-KEM plots. Those ML-KEM details should be verified from the trace metadata before labeling all four as one-million-trace passes.
 
 ### ML-DSA NTT-Domain Flow Evaluation
 
