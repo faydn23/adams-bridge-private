@@ -329,7 +329,6 @@ Significant excursions are reported during **SIGENC**, where the recombined sign
 | Norm check on recombined z | Close to thresholds | Boundary region requiring contextual interpretation |
 | SIGENC | Significant excursions | Expected public-output-dependent differences from encoding z |
 
-**Figure 4 (to be added).** Sequence-level first-order TVLA from the forward NTT of the shares through ML-DSA signature encoding, including protected arithmetic, norm checking, and SIGENC. The flow-level figure was referenced in the supplied paper text but was not among the twelve supplied operation plots; its image path must be added once available.
 
 ### Results Summary
 
@@ -343,10 +342,16 @@ Significant excursions are reported during **SIGENC**, where the recombined sign
 | ML-DSA | Masked + shuffled | INTT | 1,000,000 | No detected first-order leakage |
 | ML-DSA | Masked + shuffled | PWM | 1,000,000 | No detected first-order leakage |
 | ML-DSA | Masked + shuffled | PWA | 1,000,000 | No detected first-order leakage |
-| ML-KEM | Protected | NTT, INTT, PWM, PWA | Verify per plot | New protected-operation plots supplied |
-| ML-DSA | Masked + shuffled | NTT-domain flow through SIGENC | Not specified in supplied text | Protected arithmetic below thresholds; SIGENC excursions attributed to public z |
+| ML-KEM | Masked + shuffled | NTT | 1,000,000 | No detected first-order leakage |
+| ML-KEM | Masked + shuffled | INTT | 1,000,000 | No detected first-order leakage |
+| ML-KEM | Masked + shuffled | PWM | 1,000,000 | No detected first-order leakage |
+| ML-KEM | Masked + shuffled | PWA | 1,000,000 | No detected first-order leakage |
 
 The unprotected ML-DSA baseline exhibits pronounced first-order leakage, whereas the protected ML-DSA arithmetic operations do not show statistically significant first-order differences in the evaluated one-million-trace windows. The sequence-level evaluation provides additional evidence about operation boundaries and recombination. Leakage observed during public signature encoding is distinguished from leakage within protected secret-processing operations.
+
+
+> **Note:** The presented TVLA results focus on the security-critical operations of ML-DSA and ML-KEM. Our evaluation did not identify any significant first-order leakage in the evaluated protected operations. Although some threshold crossings were observed in full traces, our analysis suggests that these are either false positives or associated with non-sensitive computations. Based on our investigation, we did not identify any leakage that could be exploited to recover secret information through a practical side-channel attack. However, the absence of an identified exploitable leakage does not constitute proof of resistance against all possible side-channel attacks.
+
 
 ### Interpretation and Limitations
 
