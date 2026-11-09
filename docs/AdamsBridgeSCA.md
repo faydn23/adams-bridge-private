@@ -357,7 +357,7 @@ The version 2.0 evaluation also includes protected-operation TVLA figures for **
 ### ML-DSA NTT-Domain Flow Evaluation
 
 <img src="./images/mldsa_protected_example_sequence.png"
-     width="60%"
+     width="100%"
      alt="Protected ML-DSA NTT-Domain Flow TVLA">
 
 **Figure 15 — ML-DSA NTT-Domain Flow Evaluation.** First-order TVLA results for the complete NTT-domain flow of the protected ML-DSA implementation, comprising NTT, PWM, INTT, PWA, the norm check (NORMCHK), and signature encoding (SIGENC), using one million power traces. The red dashed lines indicate the statistical thresholds of +4.5 and −4.5. The excursions during SIGENC correspond to the encoding of the public signature component z, which differs between the fixed and random input sets by construction.
