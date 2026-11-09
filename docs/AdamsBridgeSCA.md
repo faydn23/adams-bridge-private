@@ -1,4 +1,4 @@
-b![OCP Logo](./images/OCP_logo.png)
+![OCP Logo](./images/OCP_logo.png)
 
 <p style="text-align: center;">Side-Channel Countermeasures for Adam’s Bridge Accelerator</p>
 
